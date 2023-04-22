@@ -50,8 +50,9 @@ class Post(models.Model):
 
     def preview(self):
         return '{} ...'.format(self.text[0:123])
-        #return self.text[0:123] + '...'
-        #return '{} ...{}'.format(self.text[0:123], self.rating)
+        # return self.text[0:123] + '...'
+        # return '{} ...{}'.format(self.text[0:123], self.rating)
+
 
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
