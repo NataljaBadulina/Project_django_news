@@ -1,12 +1,39 @@
 {% extends 'flatpages/default.html' %}
+{% load custom_filters %}
 
 {% block title %}
 {{ flatpage.title }}
 {% endblock title %}
 
 {% block content %}
-    <h2>{{ flatpage.title }}</h2>
+    <h1>{{ flatpage.title }}</h1>
     <hr>
-    <h3>News:</h3>
-{{ posts }}
+    <h3>News</h3>
+    {% if posts %}
+    <h3>Number of articles: {{ posts|length }}</h3>
+    {% else %}
+    <h3>No news for now.</h3>
+    {% endif %}
+
+    <hr>
+    {% if posts %}
+        <table>
+            <tr>
+                <td>Data</td>
+                <td>Title</td>
+                <td>Text</td>
+           </tr>
+
+           {% for post in posts %}
+           <tr>
+               <td>{{ post.dateCreation|date:'d M Y' }}</td>
+               <td>{{ post.title|censor}}</td>
+               <td>{{ post.text|truncatewords:20|censor }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>No posts at this time!</h2>
+   {% endif %}
 {% endblock content %}

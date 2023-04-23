@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.core.validators import MinValueValidator
 
 
 class Author(models.Model):
@@ -36,7 +37,7 @@ class Post(models.Model):
     categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOISE, default=ARTICLE)
     dateCreation = models.DateTimeField(auto_now_add=True)
     postCategory = models.ManyToManyField(Category, through='PostCategory')
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=256)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
@@ -52,6 +53,9 @@ class Post(models.Model):
         return '{} ...'.format(self.text[0:123])
         # return self.text[0:123] + '...'
         # return '{} ...{}'.format(self.text[0:123], self.rating)
+
+    def __str__(self):
+        return f'{self.dateCreation}||{self.title}:{self.text[:123]}...'
 
 
 class PostCategory(models.Model):

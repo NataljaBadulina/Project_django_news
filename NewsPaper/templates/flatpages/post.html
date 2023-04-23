@@ -1,0 +1,31 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+<h2>in details: {{ flatpage.title }}</h2>
+{% endblock title %}
+
+{% block content %}
+    <h2>{{ flatpage.title }}</h2>
+    <hr>
+    {% if post %}
+        <table>
+            <tr>
+                <td>Data</td>
+                <td>{{post.title|censor}}</td>
+
+            </tr>
+            <tr>
+                <td>{{ post.dateCreation|date:'d M Y' }}</td>
+                <td><p>--------------------------------------------------------------------------------------------------</p></td>
+            </tr>
+            <tr>
+                <td> </td>
+               <td>{{ post.text|censor }}</td>
+            </tr>
+        </table>
+    {% else %}
+       <h2>There is nothing</h2>
+    {% endif %}
+{% endblock content %}
