@@ -21,8 +21,3 @@ def censor(value):
     return ' '.join(censored_text_list)
 
 
-#text = "Слово прекрасное, но вот слово, со знаком препинания, не такое прекрасное!"
-
-
-#censored_text = censor(text, bad_words)
-# С**** п*********, но вот с****, со знаком препинания, не такое п*********!
