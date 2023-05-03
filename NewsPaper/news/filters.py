@@ -1,5 +1,5 @@
 from django_filters import FilterSet, ModelChoiceFilter, DateTimeFilter, CharFilter
-from .models import Post, Category
+from .models import Post, Category, PostCategory
 from django.forms import ModelForm
 from django.forms import DateInput
 
@@ -17,7 +17,7 @@ class NewsFilter(FilterSet):
         label='Title',
     )
     post_date = DateTimeFilter(
-        field_name='dateCreation',
+        field_name='datereation',
         lookup_expr='lt',
         label='Published',
         widget=DateInput(
