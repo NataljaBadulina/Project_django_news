@@ -9,6 +9,8 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 class PostList(ListView):
     model = Post
@@ -69,14 +71,16 @@ class PostCreate(CreateView):
 
 
 # Добавляем представление для изменения товара.
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'
 
 
 # Представление удаляющее товар.
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_product',)
     model = Post
     template_name = 'flatpages/post_delete.html'
     success_url = reverse_lazy('post_list')
