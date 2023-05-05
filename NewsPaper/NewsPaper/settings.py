@@ -30,6 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = "/news"
+LOGOUT_REDIRECT_URL = '/news'
 
 # Application definition
 
@@ -45,7 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django_filters',
-    ]
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.yandex',
+]
+
 SITE_ID = 1
 
 MIDDLEWARE = [
@@ -72,6 +78,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                 # `allauth` обязательно нужен этот процессор
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -79,6 +87,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
 
+# Этого раздела может не быть, добавьте его в указанном виде.
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
