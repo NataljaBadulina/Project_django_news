@@ -4,6 +4,7 @@ from django.db.models import Sum
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 
+
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAuthor = models.SmallIntegerField(default=0)
@@ -19,6 +20,9 @@ class Author(models.Model):
 
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
+
+    def __str__(self):
+        return str(self.authorUser)
 
 
 class Category(models.Model):
