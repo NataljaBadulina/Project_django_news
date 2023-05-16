@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.yandex',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.yandex'
 ]
 
 SITE_ID = 1
@@ -96,28 +97,47 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '752285071206-eu6hnqe9pv50r3ajf7levltltcl0bgds.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# Настройки почты
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = "sannata.nata@yandex.ru"
-EMAIL_HOST_PASSWORD = "mccmbgefdqztwnph"
+EMAIL_HOST = 'smtp.qmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "badulina.natalja@gmail.com"
+EMAIL_HOST_PASSWORD = "xxxxxxxxxxxxxxxxx"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
-DEFAULT_FROM_EMAIL = "sannata.nata@yandex.ru"
+DEFAULT_FROM_EMAIL = "badulina.natalja@gmail.com"
 
+SERVER_EMAIL = "badulina.natalja@gmail.com"
 
-SERVER_EMAIL = "sannata.nata@yandex.ru"
 MANAGERS = (
     ('Ivan', 'ivan@yandex.ru'),
     ('Petr', 'petr@yandex.ru'),
 )
-ADMINS = (('Nata', 'sannata.nata@yandex.ru'), )
+ADMINS = (('Nata', 'badulina.natalja@gmail.com'), )
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 

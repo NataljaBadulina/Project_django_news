@@ -22,9 +22,12 @@
 	<form method="POST">
 		{% csrf_token %}
 		{{ register_form|crispy }}
-		<button class="btn btn-primary" type="submit">Register</button>
+		<button class="btn btn-primary" type="submit">Sign Up</button>
 	</form>
 	<p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+	<p>Or</p>
+  <a href="{% provider_login_url 'google' %}">Sign up with Google</a>
 </div>
 
 {% endblock %}
+

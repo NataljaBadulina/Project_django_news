@@ -1,24 +1,37 @@
 {% extends 'flatpages/default.html' %}
 
-<html>
-    <head>
-        <title>
-            {% block head_title %}
-            {% endblock head_title %}
-        </title>
-    </head>
-    <h3>Menu:</h3>
-    <div>
-        <ul>
-            <li><a title="Home" href="{% url 'home' %}">Home</a></li>
-        </ul>
-    </div>
-    <body>
-        {% block body %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}News online{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="#">News online</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_login' %}">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_reset_password' %}">Forgot Password</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
             {% block content %}
-            {% endblock content %}
-        {% endblock body %}
-        {% block extra_body %}
-        {% endblock extra_body %}
-    </body>
+            {% endblock %}
+        </div>
+    </main>
+</body>
 </html>
