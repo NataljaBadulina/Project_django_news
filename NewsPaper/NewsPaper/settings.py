@@ -100,23 +100,23 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': '752285071206-eu6hnqe9pv50r3ajf7levltltcl0bgds.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        },
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
+#
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP': {
+#             'client_id': '752285071206-eu6hnqe9pv50r3ajf7levltltcl0bgds.apps.googleusercontent.com',
+#             'secret': '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',
+#             'key': ''
+#         },
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
+# }
 
 # Настройки почты
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
