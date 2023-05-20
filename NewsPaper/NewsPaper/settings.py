@@ -92,14 +92,16 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
+# Setup for auto-emails: https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # variable 'none' or 'optional'
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
-
+# ACCOUNT_CONFIRM_EMAIL_ON_GET = True - позволит избежать дополнительного входа и активирует аккаунт сразу, как только мы перейдём по ссылке.
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS хранит количество дней, когда доступна ссылка на подтверждение регистрации.
+# ACCOUNT_EMAIL_SUBJECT_PREFIX (=”[Site] “) - Subject-line prefix to use for email messages sent. By default, the name of the current Site (django.contrib.sites) is used.
 #
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
@@ -124,10 +126,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.qmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "badulina.natalja@gmail.com"
-EMAIL_HOST_PASSWORD = "xxxxxxxxxxxxxxxxx"
+EMAIL_HOST_PASSWORD = "SuperStar12345vsh4pq"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-
 DEFAULT_FROM_EMAIL = "badulina.natalja@gmail.com"
 
 SERVER_EMAIL = "badulina.natalja@gmail.com"
