@@ -65,11 +65,11 @@ def send_notifications(preview, pk, title, subscribers_emails):
             'Link': f'http://127.0.0.1:8000/news/{pk}',
         }
     )
-    subject = f'New post about {PostCategory} is available'
-    text_content = (
-        f'Post: {title}\n'
-        f'Link to the post: {settings.SITE_URL}/news/{pk}'
-    )
+    # subject = f'New post about {PostCategory} is available'
+    # text_content = (
+    #     f'Post: {title}\n'
+    #     f'Link to the post: {settings.SITE_URL}/news/{pk}'
+    # )
     msg = EmailMultiAlternatives(
         subject=title,
         body='',
