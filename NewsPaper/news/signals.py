@@ -53,36 +53,49 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.template.loader import render_to_string
+from .models import *
 
-from .models import PostCategory
 
-
-def send_notifications(pk, title, subscribers):
+def send_notifications(preview, pk, title, subscribers_emails):
+    html_content = render_to_string(
+        'flatpages/post_created_email.html',
+        {
+            'text': preview,
+            'Category': PostCategory,
+            'Link': f'http://127.0.0.1:8000/news/{pk}',
+        }
+    )
     subject = f'New post about {PostCategory} is available'
     text_content = (
         f'Post: {title}\n'
         f'Link to the post: {settings.SITE_URL}/news/{pk}'
     )
-    html_content = render_to_string(
-        f'Post: {title}<br>'
-        f'Category: {PostCategory}<br><br>'
-        f'<a href="{settings.SITE_URL}/news/{pk}">'
-        f'Link to the post</a>'
+    msg = EmailMultiAlternatives(
+        subject=title,
+        body='',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=subscribers_emails,
     )
-    msg = EmailMultiAlternatives(subject, text_content, from_email=settings.DEFAULT_FROM_EMAIL, to=subscribers)
+
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
 
 @receiver(m2m_changed, sender=PostCategory)
-def post_created(sender, instance, **kwargs):
+def notify_post_created(sender, instance, **kwargs):
     if kwargs['action'] == 'post_add':
         categories = instance.postCategory.all()
         subscribers_emails = []
 
         for cat in categories:
-            subscribers = cat.subscribers.all()
-            subscribers_emails += [s.email for s in subscribers]
+            subscribers = Subscription.objects.filter(category=cat)
+            subscribers_emails += [s.user.email for s in subscribers]
+            print(subscribers_emails)
 
-        send_notifications(instance.pk, instance.title, subscribers_emails)
+        send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
 
+# @receiver(m2m_changed, sender=PostCategory)
+# def post_created(sender, instance, **kwargs):
+#     print('I am signal')
+#     if kwargs['action'] == 'post_add':
+#         print('The post was created')
