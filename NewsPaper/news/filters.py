@@ -17,9 +17,9 @@ class NewsFilter(FilterSet):
         label='Title',
     )
     post_date = DateTimeFilter(
-        field_name='datereation',
+        field_name='dateCreation',
         lookup_expr='lt',
-        label='Published',
+        label='Published before',
         widget=DateInput(
             attrs={'type':'datetime-local'},),
         )

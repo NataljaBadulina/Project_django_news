@@ -23,5 +23,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     # path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),  # Оставили только allauth
+    # path('accounts/', include('allauth.socialaccount.urls')),
     path('news/', include('news.urls')),
+
  ]
