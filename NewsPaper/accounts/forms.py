@@ -49,7 +49,7 @@ class CustomSignupForm(SignupForm):
             f'<b>{user.username}</b>, You successfully registered on '
             f'<a href="http://127.0.0.1:8000/news">News online</a>!'
         )
-        # передаём текстовую версию, а html прикрепляем как альтернативный вариант письмаХроническое отставание
+        # передаём текстовую версию, а html прикрепляем как альтернативный вариант письма
         msg = EmailMultiAlternatives(
             subject=subject, body=text, from_email=None, to=[user.email]
         )

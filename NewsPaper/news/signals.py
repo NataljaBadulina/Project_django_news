@@ -56,6 +56,24 @@ from django.template.loader import render_to_string
 from .models import *
 
 
+@receiver(m2m_changed, sender=PostCategory)
+def post_created(sender, instance, **kwargs):
+    if kwargs['action'] == 'post_add':
+        categories = instance.postCategory.all()
+        subscribers_emails = []
+        for cat in categories:
+            subscribers = Subscription.objects.filter(category=cat)
+            subscribers_emails += [s.user.email for s in subscribers]
+            print(subscribers_emails)
+        send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
+
+# @receiver(m2m_changed, sender=PostCategory)
+# def post_created(sender, instance, **kwargs):
+#     print('I am signal')
+#     if kwargs['action'] == 'post_add':
+#         print('The post was created')
+
+
 def send_notifications(preview, pk, title, subscribers_emails):
     html_content = render_to_string(
         'flatpages/post_created_email.html',
@@ -76,26 +94,7 @@ def send_notifications(preview, pk, title, subscribers_emails):
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=subscribers_emails,
     )
-
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
 
-@receiver(m2m_changed, sender=PostCategory)
-def notify_post_created(sender, instance, **kwargs):
-    if kwargs['action'] == 'post_add':
-        categories = instance.postCategory.all()
-        subscribers_emails = []
-
-        for cat in categories:
-            subscribers = Subscription.objects.filter(category=cat)
-            subscribers_emails += [s.user.email for s in subscribers]
-            print(subscribers_emails)
-
-        send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
-
-# @receiver(m2m_changed, sender=PostCategory)
-# def post_created(sender, instance, **kwargs):
-#     print('I am signal')
-#     if kwargs['action'] == 'post_add':
-#         print('The post was created')
