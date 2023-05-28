@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.core.validators import MinValueValidator
 from django.urls import reverse
+from django.contrib import admin
 
 
 class Author(models.Model):
@@ -27,6 +28,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
         return self.name
@@ -87,3 +89,28 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+
+
+# Как добавить в админ поле категории новости:
+# так как это поле типа m2m, то здесь необходимо сделать следующее:
+# class CategoryInline(admin.TabularInline):
+#     # указываем в качестве модели промежуточный класс
+#     model = PostCategory
+#     extra = 1
+#
+#
+# class PostAdmin(admin.ModelAdmin):
+#     inlines = (CategoryInline,)

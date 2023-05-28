@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.yandex',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.yandex'
 ]
 
 SITE_ID = 1
@@ -66,7 +67,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'NewsPaper.urls'
-
+SITE_URL = 'http://127.0.0.1:8000'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -91,33 +92,53 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
+# Setup for auto-emails: https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # variable 'none' or 'optional'
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+# ACCOUNT_CONFIRM_EMAIL_ON_GET = True - позволит избежать дополнительного входа и активирует аккаунт сразу, как только мы перейдём по ссылке.
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS хранит количество дней, когда доступна ссылка на подтверждение регистрации.
+# ACCOUNT_EMAIL_SUBJECT_PREFIX (=”[Site] “) - Subject-line prefix to use for email messages sent. By default, the name of the current Site (django.contrib.sites) is used.
+#
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP': {
+#             'client_id': '752285071206-eu6hnqe9pv50r3ajf7levltltcl0bgds.apps.googleusercontent.com',
+#             'secret': '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',
+#             'key': ''
+#         },
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
+# }
 
-
+# Настройки почты
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = "sannata.nata@yandex.ru"
-EMAIL_HOST_PASSWORD = "mccmbgefdqztwnph"
+EMAIL_HOST = 'smtp.qmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "badulina.natalja@gmail.com"
+EMAIL_HOST_PASSWORD = "SuperStar12345vsh4pq"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = "badulina.natalja@gmail.com"
 
-DEFAULT_FROM_EMAIL = "sannata.nata@yandex.ru"
+SERVER_EMAIL = "badulina.natalja@gmail.com"
 
-
-SERVER_EMAIL = "sannata.nata@yandex.ru"
 MANAGERS = (
     ('Ivan', 'ivan@yandex.ru'),
     ('Petr', 'petr@yandex.ru'),
 )
-ADMINS = (('Nata', 'sannata.nata@yandex.ru'), )
+ADMINS = (('Nata', 'badulina.natalja@gmail.com'), )
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
