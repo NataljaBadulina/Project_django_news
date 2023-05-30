@@ -70,20 +70,18 @@ from django_apscheduler import util
 #             logger.info("Scheduler shut down successfully!")
 
 import logging
-
+import datetime
+from django.conf import settings
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
-from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand
-from django_apscheduler import util
+from django.template.loader import render_to_string
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-from datetime import datetime, timedelta, timezone
-from news.models import Post, Subscription
+from news.models import *
+from django.utils import timezone
 
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
 logger = logging.getLogger(__name__)
 
 # def my_job():
@@ -93,20 +91,20 @@ logger = logging.getLogger(__name__)
 
 
 def my_job():
-    last_week = timezone.now() - timedelta(days=7)
+    today = timezone.now()
+    last_week = today - datetime.timedelta(days=7)
     posts = Post.objects.filter(dateCreation__gte=last_week).order_by('-dateCreation')
-    categories = set(posts.values_list('categories__name', flat=True))
+    categories = set(posts.values_list('postCategory__name', flat=True))
     subscribers_emails = []
-    posts_sent = None
     for cat in categories:
-        subscribers = Subscription.objects.filter(category=cat)
+        subscribers = Subscription.objects.filter(category__name=cat)
         subscribers_emails += [s.user.email for s in subscribers]
-        posts_sent=posts.filter(categories__name=cat)
+    subscribers_emails = set(subscribers_emails)
 
     html_content = render_to_string('weekly_update.html',
                            {
                                'link': f'{settings.SITE_URL}/news/',
-                               'posts': posts_sent,
+                               'posts': posts,
                            }
                                     )
     msg = EmailMultiAlternatives(

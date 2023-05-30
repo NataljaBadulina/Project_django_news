@@ -51,7 +51,6 @@
                 <td>Data</td>
                 <td>Title</td>
                 <td>Text</td>
-                <td>Category</td>
 
                 <td>
                 {# Условие получается составным. #}
@@ -67,7 +66,7 @@
                <td>{{ post.text|truncatewords:20|censor }}</td>
 
                <td>
-                   {% for cat in news.category.all %}
+                   {% for cat in post.postCategory.all %}
                    <a >{{ category.name }}</a>
                    {% endfor %}
                </td>
